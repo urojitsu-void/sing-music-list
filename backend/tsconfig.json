@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    /* target */
+    "module": "commonjs",
+    "target": "ES2021",
+    /* path */
+    "outDir": "./dist",
+    "baseUrl": "./",
+  }
+}
