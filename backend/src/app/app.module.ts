@@ -7,6 +7,7 @@ import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "../auth/auth.module";
 import { UsersModule } from "../users/users.module";
 import { PrismaModule } from "../prisma/prisma.module";
+import { SpotifyModule } from "../spotify/spotify.module";
 
 @Module({
 	imports: [
@@ -19,6 +20,7 @@ import { PrismaModule } from "../prisma/prisma.module";
 		PrismaModule,
 		AuthModule,
 		UsersModule,
+		SpotifyModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
