@@ -125,6 +125,28 @@ const UserPage: React.FC = () => {
 		}).unwrap();
 	};
 
+	const downloadAsPlaylistFile = () => {
+		const header = ["楽曲名", "アーティスト名", "リリース日"].join(",");
+		const text = userResponse?.data.playlists[0].albums
+			.map((album) =>
+				[
+					album.name,
+					album.artists.map((artist) => artist.name).join("、"),
+					dayjs(album.releaseDate).format("YYYY-MM-DD"),
+				].join(","),
+			)
+			.join("\n");
+		const blob = new Blob([`${header}\n${text}`], { type: "text/plain" });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = "songlist.csv";
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	};
+
 	return (
 		<div>
 			<details>
@@ -270,8 +292,19 @@ const UserPage: React.FC = () => {
 				</dl>
 			</details>
 
-			<div style={{ marginTop: 10, paddingTop: 10, borderTop: "thin solid" }}>
-				{userResponse?.data.name}の歌える楽曲リスト
+			<div
+				style={{
+					marginTop: 10,
+					paddingTop: 10,
+					paddingBottom: 10,
+					borderTop: "thin solid",
+					display: "flex",
+				}}
+			>
+				<div>{userResponse?.data.name}の歌える楽曲リスト</div>
+				<button type="button" onClick={downloadAsPlaylistFile}>
+					ダウンロード
+				</button>
 			</div>
 			<table border={1} style={{ marginBottom: 10 }}>
 				<thead>
