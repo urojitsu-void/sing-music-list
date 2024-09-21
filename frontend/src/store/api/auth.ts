@@ -2,8 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AuthState {
 	id: string;
+	name: string;
 	access_token: string;
 }
+const notLoggedInState: AuthState = {
+	id: null,
+	name: null,
+	access_token: null,
+};
 
 const storageKey = "auth";
 const getUser = () => {
@@ -11,7 +17,7 @@ const getUser = () => {
 	try {
 		if (str) return JSON.parse(str);
 	} catch (e) {}
-	return { id: null, access_token: null };
+	return notLoggedInState;
 };
 const setUser = (user: AuthState) => {
 	localStorage.setItem(storageKey, JSON.stringify(user));
@@ -32,6 +38,7 @@ const authSlice = createSlice({
 		},
 		logout: (state: AuthState) => {
 			state.id = null;
+			state.name = null;
 			state.access_token = null;
 			removeUser();
 			window.location.href = "/login";

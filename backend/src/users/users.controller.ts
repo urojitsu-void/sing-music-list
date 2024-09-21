@@ -37,18 +37,21 @@ export class UsersController {
 		});
 	}
 
-	@Patch(":id")
+	@Patch(":id/playlists")
 	@ApiOperation({
-		summary: "ユーザ更新",
-		description: "ユーザを更新する。",
+		summary: "ユーザのプレイリスト更新",
+		description: "ユーザのプレイリストを更新する。",
 	})
 	@ApiCommonOkResponse(UserResponseDto, "object")
 	@UseInterceptors(CommonOkResponseInterceptor)
-	async update(
+	async updatePlaylist(
 		@Param("id") id: string,
 		@Body(new ValidationPipe()) updateUserDto: UpdateUserDto,
 	) {
-		const user = await this.usersRespository.update(+id, updateUserDto);
+		const user = await this.usersRespository.updatePlaylists(
+			+id,
+			updateUserDto,
+		);
 		return plainToClass(UserResponseDto, user, {
 			excludeExtraneousValues: true,
 		});

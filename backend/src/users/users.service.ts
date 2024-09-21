@@ -7,34 +7,82 @@ import { PrismaService } from "../prisma/prisma.service";
 export class UsersService {
 	constructor(private prisma: PrismaService) {}
 
-	findByEmail(email: string) {
-		return this.prisma.user.findUnique({
+	async findByEmail(email: string) {
+		return await this.prisma.user.findUnique({
 			where: { email },
 		});
 	}
 
-	findById(id: number) {
-		return this.prisma.user.findUnique({
+	async findById(id: number) {
+		return await this.prisma.user.findUnique({
 			where: { id },
 			select: {
 				id: true,
 				email: true,
 				name: true,
+				playlists: {
+					select: {
+						id: true,
+						albums: {
+							select: {
+								id: true,
+								name: true,
+								releaseDate: true,
+								artists: {
+									select: {
+										id: true,
+										name: true,
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 		});
 	}
 
-	create(data: CreateUserDto) {
-		return this.prisma.user.create({
+	async create(data: CreateUserDto) {
+		return await this.prisma.user.create({
 			data,
 		});
 	}
 
-	update(id: number, data: UpdateUserDto) {
-		return this.prisma.user.update({
-			where: { id },
-			data,
+	async updatePlaylists(id: number, data: UpdateUserDto) {
+		const user = await this.findById(id);
+		await this.prisma.playlist.deleteMany({
+			where: {
+				id: {
+					in: user.playlists.map((playlist) => playlist.id),
+				},
+			},
 		});
+
+		const updateUser = await this.prisma.user.update({
+			where: { id },
+			data: {
+				playlists: {
+					upsert: data.playlists.map((playlist) => ({
+						where: { id: playlist.id },
+						update: {},
+						create: {
+							albums: {
+								create: playlist.albums.map((album) => ({
+									name: album.name,
+									releaseDate: album.releaseDate,
+									artists: {
+										create: album.artists.map((artist) => ({
+											name: artist.name,
+										})),
+									},
+								})),
+							},
+						},
+					})),
+				},
+			},
+		});
+		return updateUser;
 	}
 
 	remove(id: number) {

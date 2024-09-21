@@ -54,7 +54,7 @@ class AlbumDto {
 	})
 	@IsString()
 	@IsNotEmpty()
-	release_date: string;
+	releaseDate: string;
 
 	@ApiProperty({
 		description: "album detail url",
@@ -64,6 +64,7 @@ class AlbumDto {
 
 	@ApiProperty({
 		description: "album artists",
+		type: [ArtistDto],
 		example: [
 			{
 				id: "1",
@@ -81,11 +82,12 @@ export class FindAlbumsResponseDto extends PaginationResponseDto {
 	@Expose()
 	@ApiProperty({
 		description: "album list",
+		type: [AlbumDto],
 		example: [
 			{
 				id: "1",
 				name: "千本桜",
-				release_date: "2021-01-01",
+				releaseDate: "2021-01-01",
 				detail: "https://example.com",
 				artists: [
 					{
@@ -115,6 +117,7 @@ export class FindArtistsResponseDto extends PaginationResponseDto {
 	@Expose()
 	@ApiProperty({
 		description: "artist list",
+		type: [ArtistDto],
 		example: [
 			{
 				id: "1",

@@ -48,7 +48,7 @@ export class SpotifyController {
 			albums: result?.items.map((i) => ({
 				id: i.id,
 				name: i.name,
-				release_date: i.release_date,
+				releaseDate: i.release_date,
 				detail: i.href,
 				artists: i.artists.map((a) => ({
 					id: a.id,
@@ -110,12 +110,10 @@ export class SpotifyController {
 		});
 		const response: FindAlbumsResponseDto = {
 			albums: result?.items.map((i) => ({
-				album: {
-					id: i.id,
-					name: i.name,
-					release_date: i.release_date,
-					detail: i.href,
-				},
+				id: i.id,
+				name: i.name,
+				releaseDate: i.release_date,
+				detail: i.href,
 			})),
 			total: result?.total,
 			limit: result?.limit,

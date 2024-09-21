@@ -6,7 +6,7 @@ export const usersApi = enhancedApi.enhanceEndpoints({
 		usersControllerFindOne: {
 			providesTags: ["user"], // define cache tag
 		},
-		usersControllerUpdate: {
+		usersControllerUpdatePlaylist: {
 			invalidatesTags: ["user"], // invalidate tag when update
 		},
 		usersControllerRemove: {

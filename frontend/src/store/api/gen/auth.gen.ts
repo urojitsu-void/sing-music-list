@@ -49,9 +49,33 @@ export type CommonResponseDto = {
   /** エラー内容 */
   error: string;
 };
+export type ArtistResponseDto = {
+  /** id */
+  id: number;
+  /** name */
+  name: string;
+};
+export type AlbumResponseDto = {
+  /** id */
+  id: number;
+  /** name */
+  name: string;
+  /** releaseDate */
+  releaseDate: string;
+  /** artists */
+  artists: ArtistResponseDto[];
+};
+export type PlayListResponseDto = {
+  /** id */
+  id: number;
+  /** albums */
+  albums: AlbumResponseDto[];
+};
 export type UserResponseDto = {
   /** name */
   name: string;
+  /** playlists */
+  playlists: PlayListResponseDto[];
 };
 export type CreateUserDto = {
   /** Email */
@@ -64,6 +88,8 @@ export type CreateUserDto = {
 export type LoginResponseDto = {
   /** user id */
   id: string;
+  /** user name */
+  name: string;
   /** jwt token */
   access_token: string;
 };

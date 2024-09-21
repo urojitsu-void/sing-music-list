@@ -29,6 +29,14 @@ export class LoginResponseDto {
 	@IsNotEmpty()
 	id: string;
 
+	@ApiProperty({
+		description: "user name",
+		example: "test name",
+	})
+	@IsString()
+	@IsNotEmpty()
+	name: string;
+
 	@Expose()
 	@ApiProperty({
 		description: "jwt token",

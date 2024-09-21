@@ -25,28 +25,29 @@ model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   password String  // hashed password
-  name  String?
+  name  String
   playlists Playlist[]
 }
 
 model Playlist {
   id    Int     @id @default(autoincrement())
-  user   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
-  albums   Album @relation(fields: [albumId], references: [id])
-  albumId Int
+  albums Album[]
 }
 
 model Album {
   id    Int     @id @default(autoincrement())
   name String
-  playlists Playlist[]
-  artist   Artist @relation(fields: [artistId], references: [id])
-  artistId Int
+  releaseDate DateTime
+  playlists   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  playlistId Int
+  artists   Artist[]
 }
 
 model Artist {
   id    Int     @id @default(autoincrement())
   name String
-  artist   Album[]
+  album   Album @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  albumId Int
 }

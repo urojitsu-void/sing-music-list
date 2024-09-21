@@ -10,7 +10,8 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = (props) => {
 	const { children } = props;
-	const isLogggedIn = useSelector((state: RootState) => !!state.auth.id);
+	const userName = useSelector((state: RootState) => state.auth.name);
+	const isLogggedIn = !!userName;
 	const dispatch = useDispatch();
 
 	return (
@@ -30,7 +31,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
 					{isLogggedIn ? (
 						<>
 							<li style={{ marginRight: 8 }}>
-								<Link to="/user">ユーザ</Link>
+								<Link to="/user">{userName}の歌リスト</Link>
 							</li>
 							<li style={{ marginRight: 8 }}>
 								<Link onClick={() => dispatch(logout())} to="">

@@ -46,9 +46,9 @@ export type SpotifyControllerFindAlbumsResponse =
   };
 export type SpotifyControllerFindAlbumsArgs = {
   /** pagination size */
-  limit: number;
+  limit?: number;
   /** pagination offset */
-  offset: number;
+  offset?: number;
   /** query of album name */
   albumName: string;
 };
@@ -58,9 +58,9 @@ export type SpotifyControllerFindArtistsResponse =
   };
 export type SpotifyControllerFindArtistsArgs = {
   /** pagination size */
-  limit: number;
+  limit?: number;
   /** pagination offset */
-  offset: number;
+  offset?: number;
   /** query of artist name */
   artistName: string;
 };
@@ -71,9 +71,9 @@ export type SpotifyControllerFindArtistAlbumsResponse =
 export type SpotifyControllerFindArtistAlbumsArgs = {
   id: string;
   /** pagination size */
-  limit: number;
+  limit?: number;
   /** pagination offset */
-  offset: number;
+  offset?: number;
 };
 export type CommonResponseDto = {
   /** 実行結果 */
@@ -85,6 +85,24 @@ export type CommonResponseDto = {
   /** エラー内容 */
   error: string;
 };
+export type ArtistDto = {
+  /** artist id */
+  id: string;
+  /** artist name */
+  name: string;
+};
+export type AlbumDto = {
+  /** album id */
+  id: string;
+  /** album name */
+  name: string;
+  /** album release date */
+  releaseDate: string;
+  /** album detail url */
+  detail: string;
+  /** album artists */
+  artists: ArtistDto[];
+};
 export type FindAlbumsResponseDto = {
   /** pagination size */
   total: number;
@@ -93,7 +111,7 @@ export type FindAlbumsResponseDto = {
   /** pagination offset */
   offset: number;
   /** album list */
-  albums: string[];
+  albums: AlbumDto[];
 };
 export type FindArtistsResponseDto = {
   /** pagination size */
@@ -103,7 +121,7 @@ export type FindArtistsResponseDto = {
   /** pagination offset */
   offset: number;
   /** artist list */
-  artists: string[];
+  artists: ArtistDto[];
 };
 export const {
   useSpotifyControllerFindAlbumsQuery,

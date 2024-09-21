@@ -161,10 +161,50 @@
           }
         }
       },
+      "delete": {
+        "operationId": "UsersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ApiCommonResponseOfUserResponseDto",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/CommonResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "$ref": "#/components/schemas/UserResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}/playlists": {
       "patch": {
-        "operationId": "UsersController_update",
-        "summary": "ユーザ更新",
-        "description": "ユーザを更新する。",
+        "operationId": "UsersController_updatePlaylist",
+        "summary": "ユーザのプレイリスト更新",
+        "description": "ユーザのプレイリストを更新する。",
         "parameters": [
           {
             "name": "id",
@@ -210,44 +250,6 @@
             }
           }
         }
-      },
-      "delete": {
-        "operationId": "UsersController_remove",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "ApiCommonResponseOfUserResponseDto",
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/CommonResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "type": "object",
-                          "$ref": "#/components/schemas/UserResponseDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/api/spotify/albums": {
@@ -258,7 +260,7 @@
         "parameters": [
           {
             "name": "limit",
-            "required": true,
+            "required": false,
             "in": "query",
             "description": "pagination size",
             "schema": {
@@ -268,7 +270,7 @@
           },
           {
             "name": "offset",
-            "required": true,
+            "required": false,
             "in": "query",
             "description": "pagination offset",
             "schema": {
@@ -322,7 +324,7 @@
         "parameters": [
           {
             "name": "limit",
-            "required": true,
+            "required": false,
             "in": "query",
             "description": "pagination size",
             "schema": {
@@ -332,7 +334,7 @@
           },
           {
             "name": "offset",
-            "required": true,
+            "required": false,
             "in": "query",
             "description": "pagination offset",
             "schema": {
@@ -394,7 +396,7 @@
           },
           {
             "name": "limit",
-            "required": true,
+            "required": false,
             "in": "query",
             "description": "pagination size",
             "schema": {
@@ -404,7 +406,7 @@
           },
           {
             "name": "offset",
-            "required": true,
+            "required": false,
             "in": "query",
             "description": "pagination offset",
             "schema": {
@@ -500,6 +502,98 @@
           "message"
         ]
       },
+      "ArtistResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "id",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "name",
+            "example": "artist name"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "AlbumResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "id",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "name",
+            "example": "album name"
+          },
+          "releaseDate": {
+            "type": "string",
+            "description": "releaseDate",
+            "example": "2021-01-01"
+          },
+          "artists": {
+            "description": "artists",
+            "example": [
+              {
+                "id": 1,
+                "name": "artist name"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArtistResponseDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "releaseDate",
+          "artists"
+        ]
+      },
+      "PlayListResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "id",
+            "example": 1
+          },
+          "albums": {
+            "description": "albums",
+            "example": [
+              {
+                "id": 1,
+                "name": "album name",
+                "releaseDate": "2021-01-01",
+                "artists": [
+                  {
+                    "id": 1,
+                    "name": "artist name"
+                  }
+                ]
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlbumResponseDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "albums"
+        ]
+      },
       "UserResponseDto": {
         "type": "object",
         "properties": {
@@ -507,10 +601,36 @@
             "type": "string",
             "description": "name",
             "example": "nickname"
+          },
+          "playlists": {
+            "description": "playlists",
+            "example": [
+              {
+                "id": 1,
+                "albums": [
+                  {
+                    "id": 1,
+                    "name": "album name",
+                    "releaseDate": "2021-01-01",
+                    "artists": [
+                      {
+                        "id": 1,
+                        "name": "artist name"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayListResponseDto"
+            }
           }
         },
         "required": [
-          "name"
+          "name",
+          "playlists"
         ]
       },
       "CreateUserDto": {
@@ -546,6 +666,11 @@
             "description": "user id",
             "example": "1"
           },
+          "name": {
+            "type": "string",
+            "description": "user name",
+            "example": "test name"
+          },
           "access_token": {
             "type": "string",
             "description": "jwt token",
@@ -554,6 +679,7 @@
         },
         "required": [
           "id",
+          "name",
           "access_token"
         ]
       },
@@ -593,8 +719,98 @@
             "type": "string",
             "description": "name",
             "example": "nickname"
+          },
+          "playlists": {
+            "description": "playlists",
+            "example": [
+              {
+                "id": 1,
+                "albums": [
+                  {
+                    "name": "album name",
+                    "releaseDate": "2021-01-01",
+                    "artists": [
+                      {
+                        "name": "artist name"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
-        }
+        },
+        "required": [
+          "playlists"
+        ]
+      },
+      "ArtistDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "artist id",
+            "example": "1"
+          },
+          "name": {
+            "type": "string",
+            "description": "artist name",
+            "example": "初音ミク"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "AlbumDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "album id",
+            "example": "1"
+          },
+          "name": {
+            "type": "string",
+            "description": "album name",
+            "example": "千本桜"
+          },
+          "releaseDate": {
+            "type": "string",
+            "description": "album release date",
+            "example": "2021-01-01"
+          },
+          "detail": {
+            "type": "string",
+            "description": "album detail url",
+            "example": "https://example.com"
+          },
+          "artists": {
+            "description": "album artists",
+            "example": [
+              {
+                "id": "1",
+                "name": "初音ミク"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArtistDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "releaseDate",
+          "detail",
+          "artists"
+        ]
       },
       "FindAlbumsResponseDto": {
         "type": "object",
@@ -620,7 +836,7 @@
               {
                 "id": "1",
                 "name": "千本桜",
-                "release_date": "2021-01-01",
+                "releaseDate": "2021-01-01",
                 "detail": "https://example.com",
                 "artists": [
                   {
@@ -632,7 +848,7 @@
             ],
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/AlbumDto"
             }
           }
         },
@@ -671,7 +887,7 @@
             ],
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/ArtistDto"
             }
           }
         },

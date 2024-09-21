@@ -5,33 +5,34 @@ erDiagram
     Int id "🗝️"
     String email 
     String password 
-    String name "❓"
+    String name 
     }
   
 
   "Playlist" {
     Int id "🗝️"
     Int userId 
-    Int albumId 
     }
   
 
   "Album" {
     Int id "🗝️"
     String name 
-    Int artistId 
+    DateTime releaseDate 
+    Int playlistId 
     }
   
 
   "Artist" {
     Int id "🗝️"
     String name 
+    Int albumId 
     }
   
     "User" o{--}o "Playlist" : "playlists"
     "Playlist" o|--|| "User" : "user"
-    "Playlist" o|--|| "Album" : "albums"
-    "Album" o{--}o "Playlist" : "playlists"
-    "Album" o|--|| "Artist" : "artist"
-    "Artist" o{--}o "Album" : "artist"
+    "Playlist" o{--}o "Album" : "albums"
+    "Album" o|--|| "Playlist" : "playlists"
+    "Album" o{--}o "Artist" : "artists"
+    "Artist" o|--|| "Album" : "album"
 ```

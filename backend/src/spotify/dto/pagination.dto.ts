@@ -1,23 +1,23 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class PaginationQueryDto {
-	@ApiProperty({
+	@ApiPropertyOptional({
 		description: "pagination size",
 		example: 20,
 	})
 	@IsString()
 	@IsOptional()
-	limit: number;
+	limit?: number;
 
-	@ApiProperty({
+	@ApiPropertyOptional({
 		description: "pagination offset",
 		example: 0,
 	})
 	@IsString()
 	@IsOptional()
-	offset: number;
+	offset?: number;
 }
 
 export class PaginationResponseDto {
