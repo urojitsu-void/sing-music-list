@@ -123,6 +123,10 @@ export class SpotifyController {
 				name: i.name,
 				releaseDate: i.release_date,
 				detail: i.href,
+				artists: i.artists.map((a) => ({
+					id: a.id,
+					name: a.name,
+				})),
 			})),
 			total: result?.total,
 			limit: result?.limit,
