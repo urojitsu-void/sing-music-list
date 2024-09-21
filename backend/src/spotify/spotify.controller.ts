@@ -4,6 +4,7 @@ import {
 	Inject,
 	Param,
 	Query,
+	UseGuards,
 	UseInterceptors,
 	ValidationPipe,
 } from "@nestjs/common";
@@ -19,7 +20,9 @@ import { ApiOperation } from "@nestjs/swagger";
 import { CommonOkResponseInterceptor } from "../api-common-ok-response.interceptor";
 import { ApiCommonOkResponse } from "../api-common-ok-response.decorator";
 import { PaginationQueryDto } from "./dto/pagination.dto";
+import { AuthGuard } from "@nestjs/passport";
 
+@UseGuards(AuthGuard("jwt"))
 @Controller("spotify")
 export class SpotifyController {
 	constructor(
