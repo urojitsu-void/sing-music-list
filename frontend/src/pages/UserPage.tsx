@@ -36,6 +36,8 @@ const UserPage: React.FC = () => {
 		: searchType === "artist"
 			? "artist"
 			: "album";
+	const playlist = userResponse?.data.playlists[0];
+	const albums = playlist?.albums || [];
 
 	const methods = useForm({
 		defaultValues: {
@@ -88,9 +90,6 @@ const UserPage: React.FC = () => {
 	]);
 
 	const addToPlaylist = (album: AlbumDto) => {
-		const playlist = userResponse?.data.playlists[0];
-		const albums = playlist?.albums || [];
-
 		updateUserPlaylists({
 			id,
 			updateUserDto: {
@@ -316,7 +315,7 @@ const UserPage: React.FC = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{userResponse?.data.playlists[0].albums.map((album, idx) => (
+					{albums.map((album, idx) => (
 						<tr key={album.id}>
 							<td>{album.name}</td>
 							<td>{album.artists.map((artist) => artist.name).join(",")}</td>
