@@ -272,7 +272,7 @@ const UserPage: React.FC = () => {
 			<div style={{ marginTop: 10, paddingTop: 10, borderTop: "thin solid" }}>
 				{userResponse?.data.name}の歌える楽曲リスト
 			</div>
-			<table border={1}>
+			<table border={1} style={{ marginBottom: 10 }}>
 				<thead>
 					<tr>
 						<th>楽曲名</th>
