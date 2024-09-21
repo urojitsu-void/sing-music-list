@@ -87,13 +87,13 @@ export type CommonResponseDto = {
 };
 export type ArtistDto = {
   /** artist id */
-  id: string;
+  id: number;
   /** artist name */
   name: string;
 };
 export type AlbumDto = {
   /** album id */
-  id: string;
+  id: number;
   /** album name */
   name: string;
   /** album release date */

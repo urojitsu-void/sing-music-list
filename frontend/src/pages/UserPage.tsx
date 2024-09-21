@@ -14,6 +14,8 @@ const UserPage: React.FC = () => {
 	const { data: userResponse } = usersApi.useUsersControllerFindOneQuery({
 		id,
 	});
+	const [updateUserPlaylists] =
+		usersApi.useUsersControllerUpdatePlaylistMutation();
 	const [searchSpotifyAlbums, { data: albumReponse }] =
 		spotifyApi.useLazySpotifyControllerFindAlbumsQuery();
 	const [searchSpotifyArtists, { data: artistsReponse }] =
@@ -54,7 +56,7 @@ const UserPage: React.FC = () => {
 		);
 	};
 
-	const onSearchArtistAlbums = (id: string) => {
+	const onSearchArtistAlbums = (id: number) => {
 		navigate(`/user?artist=${id}&offset=${offset || 0}`);
 	};
 
@@ -87,8 +89,23 @@ const UserPage: React.FC = () => {
 	]);
 
 	const addToPlaylist = (album: AlbumDto) => {
-		console.log(album);
+		const playlist = userResponse?.data.playlists[0];
+		const albums = playlist?.albums || [];
+
+		updateUserPlaylists({
+			id,
+			updateUserDto: {
+				playlists: [
+					{
+						albums: [...albums, { id: Number(album.id), ...album }],
+					},
+				],
+			},
+		}).unwrap();
 	};
+	// const removeToPlaylist = (idx: number) => {
+	// 	console.log(idx);
+	// };
 
 	return (
 		<div>
@@ -133,7 +150,12 @@ const UserPage: React.FC = () => {
 
 						{showType === "artistAlbum" ? (
 							<>
-								<div>{artistAlbumsResponse?.data.artist.name}の楽曲</div>
+								<div style={{ display: "flex" }}>
+									<button type="button" onClick={() => navigate(-1)}>
+										戻る
+									</button>
+									<div>{artistAlbumsResponse?.data.artist.name}の楽曲</div>
+								</div>
 								<table border={1}>
 									<thead>
 										<tr>
@@ -178,6 +200,10 @@ const UserPage: React.FC = () => {
 														padding: 0,
 														border: "none",
 														outline: "none",
+														background: "none",
+														cursor: "pointer",
+														color: "blue",
+														borderBottom: "thin solid blue",
 													}}
 													onClick={() => onSearchArtistAlbums(artist.id)}
 												>

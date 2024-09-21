@@ -702,6 +702,92 @@
           "password"
         ]
       },
+      "UpdateArtistDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "id",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "name",
+            "example": "artist name"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "UpdateAlbumDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "id",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "name",
+            "example": "album name"
+          },
+          "releaseDate": {
+            "type": "string",
+            "description": "releaseDate",
+            "example": "2021-01-01"
+          },
+          "artists": {
+            "description": "artists",
+            "example": [
+              {
+                "name": "artist name"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdateArtistDto"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "releaseDate",
+          "artists"
+        ]
+      },
+      "UpdatePlayListDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "id",
+            "example": 1
+          },
+          "albums": {
+            "description": "albums",
+            "example": [
+              {
+                "name": "album name",
+                "releaseDate": "2021-01-01",
+                "artists": [
+                  {
+                    "name": "artist name"
+                  }
+                ]
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdateAlbumDto"
+            }
+          }
+        },
+        "required": [
+          "albums"
+        ]
+      },
       "UpdateUserDto": {
         "type": "object",
         "properties": {
@@ -740,21 +826,18 @@
             ],
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/UpdatePlayListDto"
             }
           }
-        },
-        "required": [
-          "playlists"
-        ]
+        }
       },
       "ArtistDto": {
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
+            "type": "number",
             "description": "artist id",
-            "example": "1"
+            "example": 1
           },
           "name": {
             "type": "string",
@@ -771,9 +854,9 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
+            "type": "number",
             "description": "album id",
-            "example": "1"
+            "example": 1
           },
           "name": {
             "type": "string",
@@ -794,7 +877,7 @@
             "description": "album artists",
             "example": [
               {
-                "id": "1",
+                "id": 1,
                 "name": "初音ミク"
               }
             ],
@@ -834,13 +917,13 @@
             "description": "album list",
             "example": [
               {
-                "id": "1",
+                "id": 1,
                 "name": "千本桜",
                 "releaseDate": "2021-01-01",
                 "detail": "https://example.com",
                 "artists": [
                   {
-                    "id": "1",
+                    "id": 1,
                     "name": "初音ミク"
                   }
                 ]
@@ -881,7 +964,7 @@
             "description": "artist list",
             "example": [
               {
-                "id": "1",
+                "id": 1,
                 "name": "初音ミク"
               }
             ],
@@ -919,7 +1002,7 @@
           "artist": {
             "description": "album list",
             "example": {
-              "id": "1",
+              "id": 1,
               "name": "初音ミク"
             },
             "allOf": [
@@ -932,13 +1015,13 @@
             "description": "album list",
             "example": [
               {
-                "id": "1",
+                "id": 1,
                 "name": "千本桜",
                 "releaseDate": "2021-01-01",
                 "detail": "https://example.com",
                 "artists": [
                   {
-                    "id": "1",
+                    "id": 1,
                     "name": "初音ミク"
                   }
                 ]

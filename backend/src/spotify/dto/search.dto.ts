@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsString } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { PaginationQueryDto, PaginationResponseDto } from "./pagination.dto";
 import { Expose, Type } from "class-transformer";
 
@@ -16,11 +16,11 @@ export class FindAlbumsQueryDto extends PaginationQueryDto {
 class ArtistDto {
 	@ApiProperty({
 		description: "artist id",
-		example: "1",
+		example: 1,
 	})
-	@IsString()
+	@IsNumber()
 	@IsNotEmpty()
-	id: string;
+	id: number;
 
 	@ApiProperty({
 		description: "artist name",
@@ -34,11 +34,11 @@ class ArtistDto {
 class AlbumDto {
 	@ApiProperty({
 		description: "album id",
-		example: "1",
+		example: 1,
 	})
-	@IsString()
+	@IsNumber()
 	@IsNotEmpty()
-	id: string;
+	id: number;
 
 	@ApiProperty({
 		description: "album name",
@@ -67,7 +67,7 @@ class AlbumDto {
 		type: [ArtistDto],
 		example: [
 			{
-				id: "1",
+				id: 1,
 				name: "初音ミク",
 			},
 		],
@@ -85,13 +85,13 @@ export class FindAlbumsResponseDto extends PaginationResponseDto {
 		type: [AlbumDto],
 		example: [
 			{
-				id: "1",
+				id: 1,
 				name: "千本桜",
 				releaseDate: "2021-01-01",
 				detail: "https://example.com",
 				artists: [
 					{
-						id: "1",
+						id: 1,
 						name: "初音ミク",
 					},
 				],
@@ -120,7 +120,7 @@ export class FindArtistsResponseDto extends PaginationResponseDto {
 		type: [ArtistDto],
 		example: [
 			{
-				id: "1",
+				id: 1,
 				name: "初音ミク",
 			},
 		],
@@ -136,7 +136,7 @@ export class FindArtistAlbumsResponseDto extends PaginationResponseDto {
 		description: "album list",
 		type: ArtistDto,
 		example: {
-			id: "1",
+			id: 1,
 			name: "初音ミク",
 		},
 	})
@@ -150,13 +150,13 @@ export class FindArtistAlbumsResponseDto extends PaginationResponseDto {
 		type: [AlbumDto],
 		example: [
 			{
-				id: "1",
+				id: 1,
 				name: "千本桜",
 				releaseDate: "2021-01-01",
 				detail: "https://example.com",
 				artists: [
 					{
-						id: "1",
+						id: 1,
 						name: "初音ミク",
 					},
 				],

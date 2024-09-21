@@ -90,6 +90,28 @@ export type UserResponseDto = {
   /** playlists */
   playlists: PlayListResponseDto[];
 };
+export type UpdateArtistDto = {
+  /** id */
+  id?: number;
+  /** name */
+  name: string;
+};
+export type UpdateAlbumDto = {
+  /** id */
+  id?: number;
+  /** name */
+  name: string;
+  /** releaseDate */
+  releaseDate: string;
+  /** artists */
+  artists: UpdateArtistDto[];
+};
+export type UpdatePlayListDto = {
+  /** id */
+  id?: number;
+  /** albums */
+  albums: UpdateAlbumDto[];
+};
 export type UpdateUserDto = {
   /** Email */
   email?: string;
@@ -98,7 +120,7 @@ export type UpdateUserDto = {
   /** name */
   name?: string;
   /** playlists */
-  playlists: string[];
+  playlists?: UpdatePlayListDto[];
 };
 export const {
   useUsersControllerFindOneQuery,

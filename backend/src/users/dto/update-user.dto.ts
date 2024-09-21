@@ -1,12 +1,18 @@
-import { ApiProperty, PartialType } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import { CreateUserDto } from "./create-user.dto";
-import { IsArray, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {
+	IsArray,
+	IsNotEmpty,
+	IsNumber,
+	IsOptional,
+	IsString,
+} from "class-validator";
 import { Type } from "class-transformer";
 
 export class UpdateArtistDto {
-	@ApiProperty({
+	@ApiPropertyOptional({
 		description: "id",
-		example: "id",
+		example: 1,
 	})
 	@IsString()
 	@IsOptional()
@@ -22,11 +28,11 @@ export class UpdateArtistDto {
 }
 
 export class UpdateAlbumDto {
-	@ApiProperty({
+	@ApiPropertyOptional({
 		description: "id",
-		example: "id",
+		example: 1,
 	})
-	@IsString()
+	@IsNumber()
 	@IsOptional()
 	id: number;
 
@@ -48,6 +54,7 @@ export class UpdateAlbumDto {
 
 	@ApiProperty({
 		description: "artists",
+		type: [UpdateArtistDto],
 		example: [{ name: "artist name" }],
 	})
 	@Type(() => UpdateArtistDto)
@@ -57,16 +64,24 @@ export class UpdateAlbumDto {
 }
 
 export class UpdatePlayListDto {
-	@ApiProperty({
+	@ApiPropertyOptional({
 		description: "id",
-		example: "id",
+		example: 1,
 	})
-	@IsString()
+	@IsNumber()
 	@IsOptional()
 	id: number;
 
 	@ApiProperty({
 		description: "albums",
+		type: [UpdateAlbumDto],
+		example: [
+			{
+				name: "album name",
+				releaseDate: "2021-01-01",
+				artists: [{ name: "artist name" }],
+			},
+		],
 	})
 	@Type(() => UpdateAlbumDto)
 	@IsArray()
@@ -75,8 +90,9 @@ export class UpdatePlayListDto {
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
-	@ApiProperty({
+	@ApiPropertyOptional({
 		description: "playlists",
+		type: [UpdatePlayListDto],
 		example: [
 			{
 				id: 1,
