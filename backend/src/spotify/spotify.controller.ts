@@ -11,6 +11,7 @@ import { SpotifyService } from "./spotify.service";
 import {
 	FindAlbumsQueryDto,
 	FindAlbumsResponseDto,
+	FindArtistAlbumsResponseDto,
 	FindArtistsQueryDto,
 	FindArtistsResponseDto,
 } from "./dto/search.dto";
@@ -96,7 +97,7 @@ export class SpotifyController {
 		summary: "アーティストの楽曲検索",
 		description: "アーティストからアルバムを検索する。",
 	})
-	@ApiCommonOkResponse(FindAlbumsResponseDto, "object")
+	@ApiCommonOkResponse(FindArtistAlbumsResponseDto, "object")
 	@UseInterceptors(CommonOkResponseInterceptor)
 	async findArtistAlbums(
 		@Param("id") id: string,
@@ -108,7 +109,13 @@ export class SpotifyController {
 			offset,
 			limit,
 		});
-		const response: FindAlbumsResponseDto = {
+
+		console.log(result);
+		const response: FindArtistAlbumsResponseDto = {
+			artist: {
+				id: result?.items[0]?.artists[0]?.id,
+				name: result?.items[0]?.artists[0]?.name,
+			},
 			albums: result?.items.map((i) => ({
 				id: i.id,
 				name: i.name,

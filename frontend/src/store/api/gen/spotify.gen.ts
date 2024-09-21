@@ -66,7 +66,7 @@ export type SpotifyControllerFindArtistsArgs = {
 };
 export type SpotifyControllerFindArtistAlbumsResponse =
   /** status 200  */ CommonResponseDto & {
-    data?: FindAlbumsResponseDto;
+    data?: FindArtistAlbumsResponseDto;
   };
 export type SpotifyControllerFindArtistAlbumsArgs = {
   id: string;
@@ -122,6 +122,18 @@ export type FindArtistsResponseDto = {
   offset: number;
   /** artist list */
   artists: ArtistDto[];
+};
+export type FindArtistAlbumsResponseDto = {
+  /** pagination size */
+  total: number;
+  /** pagination size */
+  limit: number;
+  /** pagination offset */
+  offset: number;
+  /** album list */
+  artist: ArtistDto;
+  /** album list */
+  albums: AlbumDto[];
 };
 export const {
   useSpotifyControllerFindAlbumsQuery,

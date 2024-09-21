@@ -129,3 +129,41 @@ export class FindArtistsResponseDto extends PaginationResponseDto {
 	@IsArray()
 	artists: ArtistDto[];
 }
+
+export class FindArtistAlbumsResponseDto extends PaginationResponseDto {
+	@Expose()
+	@ApiProperty({
+		description: "album list",
+		type: ArtistDto,
+		example: {
+			id: "1",
+			name: "初音ミク",
+		},
+	})
+	@Type(() => ArtistDto)
+	@IsArray()
+	artist: ArtistDto;
+
+	@Expose()
+	@ApiProperty({
+		description: "album list",
+		type: [AlbumDto],
+		example: [
+			{
+				id: "1",
+				name: "千本桜",
+				releaseDate: "2021-01-01",
+				detail: "https://example.com",
+				artists: [
+					{
+						id: "1",
+						name: "初音ミク",
+					},
+				],
+			},
+		],
+	})
+	@Type(() => AlbumDto)
+	@IsArray()
+	albums: AlbumDto[];
+}

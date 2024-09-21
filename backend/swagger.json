@@ -421,7 +421,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "ApiCommonResponseOfFindAlbumsResponseDto",
+                  "title": "ApiCommonResponseOfFindArtistAlbumsResponseDto",
                   "allOf": [
                     {
                       "$ref": "#/components/schemas/CommonResponseDto"
@@ -430,7 +430,7 @@
                       "properties": {
                         "data": {
                           "type": "object",
-                          "$ref": "#/components/schemas/FindAlbumsResponseDto"
+                          "$ref": "#/components/schemas/FindArtistAlbumsResponseDto"
                         }
                       }
                     }
@@ -896,6 +896,66 @@
           "limit",
           "offset",
           "artists"
+        ]
+      },
+      "FindArtistAlbumsResponseDto": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "description": "pagination size",
+            "example": 20
+          },
+          "limit": {
+            "type": "number",
+            "description": "pagination size",
+            "example": 20
+          },
+          "offset": {
+            "type": "number",
+            "description": "pagination offset",
+            "example": 0
+          },
+          "artist": {
+            "description": "album list",
+            "example": {
+              "id": "1",
+              "name": "初音ミク"
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ArtistDto"
+              }
+            ]
+          },
+          "albums": {
+            "description": "album list",
+            "example": [
+              {
+                "id": "1",
+                "name": "千本桜",
+                "releaseDate": "2021-01-01",
+                "detail": "https://example.com",
+                "artists": [
+                  {
+                    "id": "1",
+                    "name": "初音ミク"
+                  }
+                ]
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlbumDto"
+            }
+          }
+        },
+        "required": [
+          "total",
+          "limit",
+          "offset",
+          "artist",
+          "albums"
         ]
       }
     }
