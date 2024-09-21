@@ -150,6 +150,9 @@ importers:
       '@types/node':
         specifier: ^22.5.5
         version: 22.5.5
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       isomorphic-fetch:
         specifier: ^3.0.0
         version: 3.0.0

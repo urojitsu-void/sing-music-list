@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useForm, useWatch } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
+import dayjs from "dayjs";
 
 const UserPage: React.FC = () => {
 	const id = useSelector((state: RootState) => state.auth.id);
@@ -286,7 +287,9 @@ const UserPage: React.FC = () => {
 						<tr key={album.id}>
 							<td>{album.name}</td>
 							<td>{album.artists.map((artist) => artist.name).join(",")}</td>
-							<td style={{ minWidth: 100 }}>{album.releaseDate}</td>
+							<td style={{ minWidth: 100 }}>
+								{dayjs(album.releaseDate).format("YYYY-MM-DD")}
+							</td>
 							<td>
 								<button
 									type="button"
