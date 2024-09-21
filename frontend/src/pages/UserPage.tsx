@@ -51,13 +51,11 @@ const UserPage: React.FC = () => {
 		if (!searchValue) {
 			return;
 		}
-		navigate(
-			`/user?q=${searchValue}&type=${searchTypeValue}&offset=${offset || 0}`,
-		);
+		navigate(`/user?q=${searchValue}&type=${searchTypeValue}&offset=${0}`);
 	};
 
 	const onSearchArtistAlbums = (id: number) => {
-		navigate(`/user?artist=${id}&offset=${offset || 0}`);
+		navigate(`/user?artist=${id}&offset=${0}`);
 	};
 
 	useEffect(() => {
@@ -129,7 +127,9 @@ const UserPage: React.FC = () => {
 	return (
 		<div>
 			<details>
-				<summary style={{ paddingTop: 10 }}>楽曲＆アーティスト検索</summary>
+				<summary style={{ paddingTop: 10, cursor: "pointer" }}>
+					楽曲＆アーティスト検索
+				</summary>
 				<dl>
 					<dt>
 						<div>
@@ -269,6 +269,9 @@ const UserPage: React.FC = () => {
 				</dl>
 			</details>
 
+			<div style={{ marginTop: 10, paddingTop: 10, borderTop: "thin solid" }}>
+				{userResponse?.data.name}の歌える楽曲リスト
+			</div>
 			<table border={1}>
 				<thead>
 					<tr>
