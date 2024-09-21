@@ -1,6 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose, Type } from "class-transformer";
-import { IsArray, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {
+	IsArray,
+	IsDate,
+	IsNotEmpty,
+	IsOptional,
+	IsString,
+} from "class-validator";
 
 class ArtistResponseDto {
 	@Expose()
@@ -42,11 +48,11 @@ class AlbumResponseDto {
 	@Expose()
 	@ApiProperty({
 		description: "releaseDate",
-		example: "2021-01-01",
+		example: new Date("2021-01-01"),
 	})
-	@IsString()
+	@IsDate()
 	@IsNotEmpty()
-	releaseDate: string;
+	releaseDate: Date;
 
 	@Expose()
 	@ApiProperty({
@@ -77,12 +83,13 @@ class PlayListResponseDto {
 			{
 				id: 1,
 				name: "album name",
-				releaseDate: "2021-01-01",
+				releaseDate: new Date("2021-01-01"),
 				artists: [{ id: 1, name: "artist name" }],
 			},
 		],
 	})
-	@IsString()
+	@Type(() => AlbumResponseDto)
+	@IsArray()
 	@IsNotEmpty()
 	albums: AlbumResponseDto[];
 }
@@ -108,7 +115,7 @@ export class UserResponseDto {
 					{
 						id: 1,
 						name: "album name",
-						releaseDate: "2021-01-01",
+						releaseDate: new Date("2021-01-01"),
 						artists: [{ id: 1, name: "artist name" }],
 					},
 				],

@@ -2,6 +2,7 @@ import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import { CreateUserDto } from "./create-user.dto";
 import {
 	IsArray,
+	IsDate,
 	IsNotEmpty,
 	IsNumber,
 	IsOptional,
@@ -46,11 +47,11 @@ export class UpdateAlbumDto {
 
 	@ApiProperty({
 		description: "releaseDate",
-		example: "2021-01-01",
+		example: new Date("2021-01-01"),
 	})
-	@IsString()
+	@IsDate()
 	@IsNotEmpty()
-	releaseDate: string;
+	releaseDate: Date;
 
 	@ApiProperty({
 		description: "artists",
@@ -78,7 +79,7 @@ export class UpdatePlayListDto {
 		example: [
 			{
 				name: "album name",
-				releaseDate: "2021-01-01",
+				releaseDate: new Date("2021-01-01"),
 				artists: [{ name: "artist name" }],
 			},
 		],
@@ -99,7 +100,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 				albums: [
 					{
 						name: "album name",
-						releaseDate: "2021-01-01",
+						releaseDate: new Date("2021-01-01"),
 						artists: [{ name: "artist name" }],
 					},
 				],

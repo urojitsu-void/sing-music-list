@@ -97,20 +97,39 @@ const UserPage: React.FC = () => {
 			updateUserDto: {
 				playlists: [
 					{
-						albums: [...albums, { id: Number(album.id), ...album }],
+						albums: [
+							...albums,
+							{
+								id: Number(album.id),
+								releaseDate: new Date(album.releaseDate),
+								...album,
+							},
+						],
 					},
 				],
 			},
 		}).unwrap();
 	};
-	// const removeToPlaylist = (idx: number) => {
-	// 	console.log(idx);
-	// };
+	const removeFromPlaylist = (idx: number) => {
+		const playlist = userResponse?.data.playlists[0];
+		const albums = playlist?.albums || [];
+
+		updateUserPlaylists({
+			id,
+			updateUserDto: {
+				playlists: [
+					{
+						albums: [...albums.slice(0, idx), ...albums.slice(idx + 1)],
+					},
+				],
+			},
+		}).unwrap();
+	};
 
 	return (
 		<div>
 			<details>
-				<summary>検索</summary>
+				<summary style={{ paddingTop: 10 }}>楽曲＆アーティスト検索</summary>
 				<dl>
 					<dt>
 						<div>
@@ -250,21 +269,34 @@ const UserPage: React.FC = () => {
 				</dl>
 			</details>
 
-			{userResponse?.data.playlists.map((playlist) => (
-				<div key={playlist.id}>
-					{playlist.albums.map((album) => (
-						<div key={album.id}>
-							<p>{album.name}</p>
-							<p>{album.releaseDate}</p>
-							{album.artists.map((artist) => (
-								<div key={artist.id}>
-									<p>{artist.name}</p>
-								</div>
-							))}
-						</div>
+			<table border={1}>
+				<thead>
+					<tr>
+						<th>楽曲名</th>
+						<th>アーティスト名</th>
+						<th>リリース日</th>
+						<th />
+					</tr>
+				</thead>
+				<tbody>
+					{userResponse?.data.playlists[0].albums.map((album, idx) => (
+						<tr key={album.id}>
+							<td>{album.name}</td>
+							<td>{album.artists.map((artist) => artist.name).join(",")}</td>
+							<td style={{ minWidth: 100 }}>{album.releaseDate}</td>
+							<td>
+								<button
+									type="button"
+									style={{ minWidth: 80, padding: 8 }}
+									onClick={() => removeFromPlaylist(idx)}
+								>
+									削除する
+								</button>
+							</td>
+						</tr>
 					))}
-				</div>
-			))}
+				</tbody>
+			</table>
 		</div>
 	);
 };

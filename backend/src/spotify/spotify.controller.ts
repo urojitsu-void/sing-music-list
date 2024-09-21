@@ -110,7 +110,6 @@ export class SpotifyController {
 			limit,
 		});
 
-		console.log(result);
 		const response: FindArtistAlbumsResponseDto = {
 			artist: {
 				id: result?.items[0]?.artists[0]?.id,

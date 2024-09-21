@@ -535,9 +535,10 @@
             "example": "album name"
           },
           "releaseDate": {
+            "format": "date-time",
             "type": "string",
             "description": "releaseDate",
-            "example": "2021-01-01"
+            "example": "2021-01-01T00:00:00.000Z"
           },
           "artists": {
             "description": "artists",
@@ -574,7 +575,7 @@
               {
                 "id": 1,
                 "name": "album name",
-                "releaseDate": "2021-01-01",
+                "releaseDate": "2021-01-01T00:00:00.000Z",
                 "artists": [
                   {
                     "id": 1,
@@ -611,7 +612,7 @@
                   {
                     "id": 1,
                     "name": "album name",
-                    "releaseDate": "2021-01-01",
+                    "releaseDate": "2021-01-01T00:00:00.000Z",
                     "artists": [
                       {
                         "id": 1,
@@ -734,9 +735,10 @@
             "example": "album name"
           },
           "releaseDate": {
+            "format": "date-time",
             "type": "string",
             "description": "releaseDate",
-            "example": "2021-01-01"
+            "example": "2021-01-01T00:00:00.000Z"
           },
           "artists": {
             "description": "artists",
@@ -770,7 +772,7 @@
             "example": [
               {
                 "name": "album name",
-                "releaseDate": "2021-01-01",
+                "releaseDate": "2021-01-01T00:00:00.000Z",
                 "artists": [
                   {
                     "name": "artist name"
@@ -814,7 +816,7 @@
                 "albums": [
                   {
                     "name": "album name",
-                    "releaseDate": "2021-01-01",
+                    "releaseDate": "2021-01-01T00:00:00.000Z",
                     "artists": [
                       {
                         "name": "artist name"
@@ -864,9 +866,10 @@
             "example": "千本桜"
           },
           "releaseDate": {
+            "format": "date-time",
             "type": "string",
             "description": "album release date",
-            "example": "2021-01-01"
+            "example": "2021-01-01T00:00:00.000Z"
           },
           "detail": {
             "type": "string",
@@ -919,7 +922,7 @@
               {
                 "id": 1,
                 "name": "千本桜",
-                "releaseDate": "2021-01-01",
+                "releaseDate": "2021-01-01T00:00:00.000Z",
                 "detail": "https://example.com",
                 "artists": [
                   {
@@ -1017,7 +1020,7 @@
               {
                 "id": 1,
                 "name": "千本桜",
-                "releaseDate": "2021-01-01",
+                "releaseDate": "2021-01-01T00:00:00.000Z",
                 "detail": "https://example.com",
                 "artists": [
                   {

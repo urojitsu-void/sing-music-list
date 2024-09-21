@@ -62,21 +62,17 @@ export class UsersService {
 			where: { id },
 			data: {
 				playlists: {
-					upsert: data.playlists.map((playlist) => ({
-						where: { id: playlist.id },
-						update: {},
-						create: {
-							albums: {
-								create: playlist.albums.map((album) => ({
-									name: album.name,
-									releaseDate: album.releaseDate,
-									artists: {
-										create: album.artists.map((artist) => ({
-											name: artist.name,
-										})),
-									},
-								})),
-							},
+					create: data.playlists.map((playlist) => ({
+						albums: {
+							create: playlist.albums.map((album) => ({
+								name: album.name,
+								releaseDate: new Date(album.releaseDate),
+								artists: {
+									create: album.artists.map((artist) => ({
+										name: artist.name,
+									})),
+								},
+							})),
 						},
 					})),
 				},

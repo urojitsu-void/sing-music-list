@@ -1,5 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import {
+	IsArray,
+	IsDate,
+	IsNotEmpty,
+	IsNumber,
+	IsString,
+} from "class-validator";
 import { PaginationQueryDto, PaginationResponseDto } from "./pagination.dto";
 import { Expose, Type } from "class-transformer";
 
@@ -50,11 +56,11 @@ class AlbumDto {
 
 	@ApiProperty({
 		description: "album release date",
-		example: "2021-01-01",
+		example: new Date("2021-01-01"),
 	})
-	@IsString()
+	@IsDate()
 	@IsNotEmpty()
-	releaseDate: string;
+	releaseDate: Date;
 
 	@ApiProperty({
 		description: "album detail url",
@@ -87,7 +93,7 @@ export class FindAlbumsResponseDto extends PaginationResponseDto {
 			{
 				id: 1,
 				name: "千本桜",
-				releaseDate: "2021-01-01",
+				releaseDate: new Date("2021-01-01"),
 				detail: "https://example.com",
 				artists: [
 					{
@@ -152,7 +158,7 @@ export class FindArtistAlbumsResponseDto extends PaginationResponseDto {
 			{
 				id: 1,
 				name: "千本桜",
-				releaseDate: "2021-01-01",
+				releaseDate: new Date("2021-01-01"),
 				detail: "https://example.com",
 				artists: [
 					{
