@@ -1,5 +1,23 @@
-import { Controller, Get, Inject, Param, Query } from "@nestjs/common";
+import {
+	Controller,
+	Get,
+	Inject,
+	Param,
+	Query,
+	UseInterceptors,
+	ValidationPipe,
+} from "@nestjs/common";
 import { SpotifyService } from "./spotify.service";
+import {
+	FindAlbumsQueryDto,
+	FindAlbumsResponseDto,
+	FindArtistsQueryDto,
+	FindArtistsResponseDto,
+} from "./dto/search.dto";
+import { ApiOperation } from "@nestjs/swagger";
+import { CommonOkResponseInterceptor } from "../api-common-ok-response.interceptor";
+import { ApiCommonOkResponse } from "../api-common-ok-response.decorator";
+import { PaginationQueryDto } from "./dto/pagination.dto";
 
 @Controller("spotify")
 export class SpotifyController {
@@ -9,18 +27,24 @@ export class SpotifyController {
 	) {}
 
 	@Get("albums")
+	@ApiOperation({
+		summary: "楽曲検索",
+		description: "楽曲名からアルバムを検索する。",
+	})
+	@ApiCommonOkResponse(FindAlbumsResponseDto, "object")
+	@UseInterceptors(CommonOkResponseInterceptor)
 	async findAlbums(
-		@Query("query") query: string,
-		@Query("offset") offset?: number,
-		@Query("limit") limit?: number,
+		@Query(new ValidationPipe({ whitelist: true })) query: FindAlbumsQueryDto,
 	) {
+		const { albumName, offset, limit } = query;
 		const result = await this.spotifyService.search({
-			query,
+			query: albumName,
 			type: "album",
 			offset,
 			limit,
 		});
-		return {
+
+		const response: FindAlbumsResponseDto = {
 			albums: result?.items.map((i) => ({
 				id: i.id,
 				name: i.name,
@@ -35,21 +59,27 @@ export class SpotifyController {
 			limit: result?.limit,
 			offset: result?.offset,
 		};
+		return response;
 	}
 
 	@Get("artists")
+	@ApiOperation({
+		summary: "アーティスト検索",
+		description: "アーティスト名からアーティストを検索する。",
+	})
+	@ApiCommonOkResponse(FindArtistsResponseDto, "object")
+	@UseInterceptors(CommonOkResponseInterceptor)
 	async findArtists(
-		@Query("query") query: string,
-		@Query("offset") offset?: number,
-		@Query("limit") limit?: number,
+		@Query(new ValidationPipe({ whitelist: true })) query: FindArtistsQueryDto,
 	) {
+		const { artistName, offset, limit } = query;
 		const result = await this.spotifyService.search({
-			query,
+			query: artistName,
 			type: "artist",
 			offset,
 			limit,
 		});
-		return {
+		const response: FindArtistsResponseDto = {
 			artists: result?.items.map((a) => ({
 				id: a.id,
 				name: a.name,
@@ -58,21 +88,28 @@ export class SpotifyController {
 			limit: result?.limit,
 			offset: result?.offset,
 		};
+		return response;
 	}
 
 	@Get("artists/:id/albums")
+	@ApiOperation({
+		summary: "アーティストの楽曲検索",
+		description: "アーティストからアルバムを検索する。",
+	})
+	@ApiCommonOkResponse(FindAlbumsResponseDto, "object")
+	@UseInterceptors(CommonOkResponseInterceptor)
 	async findArtistAlbums(
 		@Param("id") id: string,
-		@Query("offset") offset?: number,
-		@Query("limit") limit?: number,
+		@Query(new ValidationPipe({ whitelist: true })) query: PaginationQueryDto,
 	) {
+		const { offset, limit } = query;
 		const result = await this.spotifyService.getArtistAlbums({
 			id,
 			offset,
 			limit,
 		});
-		return {
-			items: result?.items.map((i) => ({
+		const response: FindAlbumsResponseDto = {
+			albums: result?.items.map((i) => ({
 				album: {
 					id: i.id,
 					name: i.name,
@@ -84,5 +121,6 @@ export class SpotifyController {
 			limit: result?.limit,
 			offset: result?.offset,
 		};
+		return response;
 	}
 }

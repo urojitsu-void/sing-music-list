@@ -34,19 +34,6 @@
         }
       }
     },
-    "/api/error": {
-      "get": {
-        "operationId": "AppController_getError",
-        "summary": "(強制エラー)",
-        "description": "強制的にエラーを出力する。",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/api/auth/signup": {
       "post": {
         "operationId": "AuthController_signup",
@@ -266,35 +253,63 @@
     "/api/spotify/albums": {
       "get": {
         "operationId": "SpotifyController_findAlbums",
+        "summary": "楽曲検索",
+        "description": "楽曲名からアルバムを検索する。",
         "parameters": [
           {
-            "name": "query",
+            "name": "limit",
             "required": true,
             "in": "query",
+            "description": "pagination size",
             "schema": {
-              "type": "string"
+              "example": 20,
+              "type": "number"
             }
           },
           {
             "name": "offset",
             "required": true,
             "in": "query",
+            "description": "pagination offset",
             "schema": {
+              "example": 0,
               "type": "number"
             }
           },
           {
-            "name": "limit",
+            "name": "albumName",
             "required": true,
             "in": "query",
+            "description": "query of album name",
             "schema": {
-              "type": "number"
+              "example": "千本桜",
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ApiCommonResponseOfFindAlbumsResponseDto",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/CommonResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "$ref": "#/components/schemas/FindAlbumsResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -302,35 +317,63 @@
     "/api/spotify/artists": {
       "get": {
         "operationId": "SpotifyController_findArtists",
+        "summary": "アーティスト検索",
+        "description": "アーティスト名からアーティストを検索する。",
         "parameters": [
           {
-            "name": "query",
+            "name": "limit",
             "required": true,
             "in": "query",
+            "description": "pagination size",
             "schema": {
-              "type": "string"
+              "example": 20,
+              "type": "number"
             }
           },
           {
             "name": "offset",
             "required": true,
             "in": "query",
+            "description": "pagination offset",
             "schema": {
+              "example": 0,
               "type": "number"
             }
           },
           {
-            "name": "limit",
+            "name": "artistName",
             "required": true,
             "in": "query",
+            "description": "query of artist name",
             "schema": {
-              "type": "number"
+              "example": "初音ミク",
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ApiCommonResponseOfFindArtistsResponseDto",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/CommonResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "$ref": "#/components/schemas/FindArtistsResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -338,6 +381,8 @@
     "/api/spotify/artists/{id}/albums": {
       "get": {
         "operationId": "SpotifyController_findArtistAlbums",
+        "summary": "アーティストの楽曲検索",
+        "description": "アーティストからアルバムを検索する。",
         "parameters": [
           {
             "name": "id",
@@ -348,25 +393,49 @@
             }
           },
           {
-            "name": "offset",
+            "name": "limit",
             "required": true,
             "in": "query",
+            "description": "pagination size",
             "schema": {
+              "example": 20,
               "type": "number"
             }
           },
           {
-            "name": "limit",
+            "name": "offset",
             "required": true,
             "in": "query",
+            "description": "pagination offset",
             "schema": {
+              "example": 0,
               "type": "number"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "ApiCommonResponseOfFindAlbumsResponseDto",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/CommonResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "$ref": "#/components/schemas/FindAlbumsResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -526,6 +595,92 @@
             "example": "nickname"
           }
         }
+      },
+      "FindAlbumsResponseDto": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "description": "pagination size",
+            "example": 20
+          },
+          "limit": {
+            "type": "number",
+            "description": "pagination size",
+            "example": 20
+          },
+          "offset": {
+            "type": "number",
+            "description": "pagination offset",
+            "example": 0
+          },
+          "albums": {
+            "description": "album list",
+            "example": [
+              {
+                "id": "1",
+                "name": "千本桜",
+                "release_date": "2021-01-01",
+                "detail": "https://example.com",
+                "artists": [
+                  {
+                    "id": "1",
+                    "name": "初音ミク"
+                  }
+                ]
+              }
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "total",
+          "limit",
+          "offset",
+          "albums"
+        ]
+      },
+      "FindArtistsResponseDto": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "description": "pagination size",
+            "example": 20
+          },
+          "limit": {
+            "type": "number",
+            "description": "pagination size",
+            "example": 20
+          },
+          "offset": {
+            "type": "number",
+            "description": "pagination offset",
+            "example": 0
+          },
+          "artists": {
+            "description": "artist list",
+            "example": [
+              {
+                "id": "1",
+                "name": "初音ミク"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "total",
+          "limit",
+          "offset",
+          "artists"
+        ]
       }
     }
   }

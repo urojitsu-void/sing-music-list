@@ -14,7 +14,14 @@ const Layout: React.FC<LayoutProps> = (props) => {
 	const dispatch = useDispatch();
 
 	return (
-		<div>
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				margin: 8,
+				height: "100%",
+			}}
+		>
 			<header style={{ borderBottom: "thin solid black", paddingBottom: 10 }}>
 				<ol style={{ listStyle: "none", display: "flex", padding: 0 }}>
 					<li style={{ marginRight: 8 }}>
@@ -43,16 +50,16 @@ const Layout: React.FC<LayoutProps> = (props) => {
 					)}
 				</ol>
 			</header>
-			<main>{children}</main>
+			<main style={{ flex: "1 1 auto" }}>{children}</main>
 			<footer
 				style={{
 					borderTop: "thin solid black",
-					marginTop: 10,
 					paddingTop: 10,
+					paddingBottom: 10,
 					textAlign: "right",
 				}}
 			>
-				2024 Example
+				<a href="https://twitter.com/urojitsu">©️虚実ヴォイド</a>
 			</footer>
 		</div>
 	);

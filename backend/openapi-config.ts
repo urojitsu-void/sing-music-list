@@ -8,14 +8,14 @@ const config: ConfigFile = {
 	hooks: true,
 	responseSuffix: "Response",
 	outputFiles: {
-		"../frontend/src/store/api/gen/app.gen.ts": {
-			filterEndpoints: [/appController/],
-		},
 		"../frontend/src/store/api/gen/auth.gen.ts": {
 			filterEndpoints: [/authController/],
 		},
 		"../frontend/src/store/api/gen/users.gen.ts": {
 			filterEndpoints: [/usersController/],
+		},
+		"../frontend/src/store/api/gen/spotify.gen.ts": {
+			filterEndpoints: [/spotifyController/],
 		},
 	},
 };

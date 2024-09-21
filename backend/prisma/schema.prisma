@@ -26,4 +26,27 @@ model User {
   email String  @unique
   password String  // hashed password
   name  String?
+  playlists Playlist[]
+}
+
+model Playlist {
+  id    Int     @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+  albums   Album @relation(fields: [albumId], references: [id])
+  albumId Int
+}
+
+model Album {
+  id    Int     @id @default(autoincrement())
+  name String
+  playlists Playlist[]
+  artist   Artist @relation(fields: [artistId], references: [id])
+  artistId Int
+}
+
+model Artist {
+  id    Int     @id @default(autoincrement())
+  name String
+  artist   Album[]
 }

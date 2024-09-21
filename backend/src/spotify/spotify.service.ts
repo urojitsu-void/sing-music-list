@@ -48,12 +48,8 @@ export class SpotifyService {
 			Authorization: `Bearer ${token}`,
 		};
 
-		try {
-			const response = await axios.get(searchUrl, { headers });
-			return response.data[`${type}s`];
-		} catch (error) {
-			console.error("Error fetching Spotify token:", error);
-		}
+		const response = await axios.get(searchUrl, { headers });
+		return response.data[`${type}s`];
 	}
 
 	async getArtistAlbums({
@@ -72,11 +68,7 @@ export class SpotifyService {
 			Authorization: `Bearer ${token}`,
 		};
 
-		try {
-			const response = await axios.get(searchUrl, { headers });
-			return response.data;
-		} catch (error) {
-			console.error("Error fetching Spotify token:", error);
-		}
+		const response = await axios.get(searchUrl, { headers });
+		return response.data;
 	}
 }
